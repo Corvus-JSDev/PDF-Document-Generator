@@ -26,6 +26,13 @@ pdf.cell(w=0, h=16, txt="Hi there", align="C", ln=1, border=1)
 
 data = pd.read_csv("topics.csv")
 
+
+def add_footer(ln, title):
+	pdf.ln(ln)
+	pdf.set_font(family="Times", size=12, style="I")
+	pdf.cell(txt=f"{title} | Page {page_number}", w=0, h=12, align="R", ln=1)
+
+
 page_number = 1
 for index, row in data.iterrows():
 	# Generate the first page and its title
@@ -39,9 +46,7 @@ for index, row in data.iterrows():
 	pdf.cell(txt=f"This is page: 1 for {row['Topic']}", w=0, h=16, align="L", ln=1)
 
 	# Add footer
-	pdf.ln(230)
-	pdf.set_font(family="Times", size=12, style="I")
-	pdf.cell(txt=f"{row['Topic']} | Page {page_number}", w=0, h=12, align="R", ln=1)
+	add_footer(230, row['Topic'])
 	page_number += 1
 
 	# Add additional pages if needed
@@ -51,13 +56,8 @@ for index, row in data.iterrows():
 		pdf.cell(txt=f"This is page: {x+1} for {row['Topic']}", w=0, h=16, align="L", ln=1)
 
 		# Add footer
-		pdf.ln(255)
-		pdf.set_font(family="Times", size=12, style="I")
-		pdf.cell(txt=f"{row['Topic']} | Page {page_number}", w=0, h=12, align="R", ln=1)
+		add_footer(255, row['Topic'])
 		page_number += 1
-
-
-
 
 
 pdf.output("output.pdf")
