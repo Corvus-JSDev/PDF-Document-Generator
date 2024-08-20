@@ -1,4 +1,5 @@
 from fpdf import FPDF
+import pandas as pd
 
 pdf = FPDF(orientation="portrait", unit="mm", format="A4")
 
@@ -21,6 +22,8 @@ pdf.add_page()
 pdf.cell(w=0, h=16, txt="This is a new page", align="L", ln=1, border=1)
 pdf.cell(w=0, h=16, txt="Hi there", align="C", ln=1, border=1)
 """
+
+data = pd.read_csv("topics.csv")
 
 
 
