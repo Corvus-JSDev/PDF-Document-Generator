@@ -25,6 +25,21 @@ pdf.cell(w=0, h=16, txt="Hi there", align="C", ln=1, border=1)
 
 data = pd.read_csv("topics.csv")
 
+for index, row in data.iterrows():
+	# Generate the first page and its title
+	pdf.set_font(family="Times", size=24, style="B")
+	pdf.add_page()
+	pdf.cell(txt=f"{index+1}. {row['Topic']}", w=0, h=24, align="L", ln=1)
+	pdf.line(10, 28, 200, 28)
+
+	# Add some basic text
+	pdf.set_font(family="helvetica", size=16)
+	pdf.cell(txt=f"This is page: 1 for {row['Topic']}", w=0, h=16, align="L", ln=1)
+
+	# Add additional pages if needed
+	for x in range(1, row["Pages"]):
+		pdf.add_page()
+		pdf.cell(txt=f"This is page: {x+1} for {row['Topic']}", w=0, h=16, align="L", ln=1)
 
 
 pdf.output("output.pdf")
