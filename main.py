@@ -2,6 +2,7 @@ from fpdf import FPDF
 import pandas as pd
 
 pdf = FPDF(orientation="portrait", unit="mm", format="A4")
+pdf.set_auto_page_break(auto=False, margin=0)
 
 """
 pdf.set_font(family="helvetica", size=16)
@@ -25,6 +26,7 @@ pdf.cell(w=0, h=16, txt="Hi there", align="C", ln=1, border=1)
 
 data = pd.read_csv("topics.csv")
 
+page_number = 1
 for index, row in data.iterrows():
 	# Generate the first page and its title
 	pdf.set_font(family="Times", size=24, style="B")
@@ -36,10 +38,26 @@ for index, row in data.iterrows():
 	pdf.set_font(family="helvetica", size=16)
 	pdf.cell(txt=f"This is page: 1 for {row['Topic']}", w=0, h=16, align="L", ln=1)
 
+	# Add footer
+	pdf.ln(230)
+	pdf.set_font(family="Times", size=12, style="I")
+	pdf.cell(txt=f"{row['Topic']} | Page {page_number}", w=0, h=12, align="R", ln=1)
+	page_number += 1
+
 	# Add additional pages if needed
 	for x in range(1, row["Pages"]):
+		pdf.set_font(family="helvetica", size=16)
 		pdf.add_page()
 		pdf.cell(txt=f"This is page: {x+1} for {row['Topic']}", w=0, h=16, align="L", ln=1)
+
+		# Add footer
+		pdf.ln(255)
+		pdf.set_font(family="Times", size=12, style="I")
+		pdf.cell(txt=f"{row['Topic']} | Page {page_number}", w=0, h=12, align="R", ln=1)
+		page_number += 1
+
+
+
 
 
 pdf.output("output.pdf")
